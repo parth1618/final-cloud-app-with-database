@@ -118,10 +118,14 @@ class Question(models.Model):
     def is_get_score(self, selected_ids):
        all_answers = self.choice_set.filter(is_correct=True).count()
        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-       if all_answers == selected_correct:
-           return True
+       if int((selected_correct/all_answers)*100) >= 80:
+           return 'A'
+       elif int((selected_correct/all_answers)*100) >= 60:
+           return 'B'
+       elif int((selected_correct/all_answers)*100) >= 40:
+           return 'C'
        else:
-           return False
+           return 'F'
 
 
 #  <HINT> Create a Choice Model with:
